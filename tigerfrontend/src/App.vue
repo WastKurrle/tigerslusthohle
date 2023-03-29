@@ -1,9 +1,20 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import NavbarVue from './components/Navbar.vue'
+import { onMounted } from 'vue';
+import { useAuthenticateStore } from './stores/authenticate';
+import Cookies from 'js-cookie'
 
 // components
 import Navbar from './components/Navbar.vue'
+
+// stores = 
+const authenticateStore = useAuthenticateStore()
+
+onMounted(() => {
+  if (Cookies.get('auth')) {
+    authenticateStore.authenticated = true
+  }
+})
 </script>
 
 <template>

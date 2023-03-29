@@ -1,5 +1,33 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useFilterStore } from '../stores/filter'
+import axios from 'axios'
+
+const router = useRouter()
+
+// stores
+const filterStore = useFilterStore()
+
+const query = ref('')
+
+const filter = () => {
+    const data = {
+        filterData: query.value
+    }
+
+    axios
+        .post('/api/upload/filter/', data)
+        .then(response => {
+            filterStore.filterRes = response.data
+            query.value = ''
+            router.push('/filter')
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
 </script>
 
 <template>
@@ -22,8 +50,8 @@ import { RouterLink } from 'vue-router'
                         <RouterLink class="nav-link" :to="{ name: 'upload-video' }">Upload Video</RouterLink>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex" @submit.prevent="filter">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="query">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 </div>

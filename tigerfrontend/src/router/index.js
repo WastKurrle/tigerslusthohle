@@ -5,6 +5,7 @@ import UploadView from '../views/UploadView.vue'
 import UploadVideo from '../views/UploadVideo.vue'
 import ConfrimeImgDeleteView from '../views/ConfrimeImgDelete.vue'
 import ConfrimeVideoDeleteView from '../views/ConfrimeVideoDelete.vue'
+import FilterResultView from '../views/FilterResultView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/upload/video/:id',
       name: 'upload-video-delete',
       component: ConfrimeVideoDeleteView
+    },
+    {
+      path: '/filter',
+      name: 'filter',
+      component: FilterResultView
     },
   ]
 })

@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import ImageUploadSerializer, VideoUploadSerializer
 from .models import ImageUpload, VideoUpload
+from django.db.models import Q
 
 
 class UploadImageView(APIView):
@@ -49,3 +50,21 @@ class UploadVideoView(APIView):
 
         instance.delete()
         return Response(status=200)
+
+class FilterView(APIView):
+    def post(self, request):
+        query = request.data['filterData']
+        if query:
+            filter_img_res = ImageUpload.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            filter_video_res = VideoUpload.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            img_serializer = ImageUploadSerializer(filter_img_res, many=True)
+            video_serializer = VideoUploadSerializer(filter_video_res, many=True)
+            return Response({
+                'img': img_serializer.data,
+                'video': video_serializer.data
+            })
+
+        return Response({
+            'img': [],
+            'video': []
+        })
