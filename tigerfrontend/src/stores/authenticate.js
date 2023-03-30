@@ -13,9 +13,7 @@ export const useAuthenticateStore = defineStore('authenticate', () => {
         }
 
         axios
-            .post('/api/auth/', data, {
-                withCredentials: true,
-            })
+            .post('/api/auth/', data)
             .then(response => {
                 Cookies.set('auth', true, { expires: 1/24/6 })
                 authenticated.value = true

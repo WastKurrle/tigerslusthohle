@@ -10,7 +10,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap'
 import 'vue3-toastify/dist/index.css'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000'
+const debug = false
+
+if (debug) {
+    axios.defaults.baseURL = 'http://127.0.0.1:8000'
+}
+else {
+    axios.defaults.baseURL = 'https://api.tigerslusthoehle.de'
+}
 
 const app = createApp(App)
 
